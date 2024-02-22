@@ -1,35 +1,74 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { Plus, Search, FileDown, MoreHorizontal } from "lucide-react";
+import { Header } from "./components/header";
+import { Tabs } from "./components/tabs";
+import { Button } from "./components/ui/button";
+import { Control, Input } from "./components/ui/input";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "./components/ui/table";
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export function App() {
   return (
-    <>
+    <div className="py-10 space-y-8">
       <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <Header />
+        <Tabs />
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+      <main className="max-w-6xl mx-auto space-y-5">
+        <div className="flex items-center gap-3">
+          <h1 className="text-xl font-bold">Tags</h1>
+          <Button variant="primary">
+            <Plus className="size-3" /> Create new
+          </Button>
+        </div>
+        <div className="flex items-center justify-between">
+          <Input variant="filter">
+            <Search className="size-3" />
+            <Control placeholder="Search tags..." />
+          </Input>
 
-export default App
+          <Button>
+            <FileDown className="size-3" />
+            Export
+          </Button>
+        </div>
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead></TableHead>
+              <TableHead>Tag</TableHead>
+              <TableHead>Amount of videos</TableHead>
+              <TableHead></TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {Array.from({ length: 10 }).map((value, index) => (
+              <TableRow key={index}>
+                <TableCell></TableCell>
+                <TableCell>
+                  <div className="flex flex-col gap-1.5">
+                    <span className="font-medium">React</span>
+                    <span className="text-xs text-zinc-500">
+                      JKAJKJDAA-AJKFJAKFJA-A2KJ3NCSF
+                    </span>
+                  </div>
+                </TableCell>
+                <TableCell className="text-zinc-300">13 video(s)</TableCell>
+                <TableCell className="text-right">
+                  <Button size="icon">
+                    <MoreHorizontal className="size-4" />
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </main>
+    </div>
+  );
+}
