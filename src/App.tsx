@@ -1,4 +1,12 @@
-import { Plus, Search, Filter, FileDown, MoreHorizontal } from "lucide-react";
+import {
+  Plus,
+  Search,
+  Filter,
+  FileDown,
+  MoreHorizontal,
+  X,
+  Check,
+} from "lucide-react";
 import { Header } from "./components/header";
 import { Tabs } from "./components/tabs";
 import { Button } from "./components/ui/button";
@@ -14,7 +22,9 @@ import {
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { Pagination } from "./components/pagination";
 import { useSearchParams } from "react-router-dom";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
+import * as Dialog from "@radix-ui/react-dialog";
+import { CreateTagForm } from "./components/create-tag-form";
 
 export interface TagsResponse {
   first: number;
@@ -77,9 +87,28 @@ export function App() {
       <main className="max-w-6xl mx-auto space-y-5">
         <div className="flex items-center gap-3">
           <h1 className="text-xl font-bold">Tags</h1>
-          <Button variant="primary">
-            <Plus className="size-3" /> Create new
-          </Button>
+
+          <Dialog.Root>
+            <Dialog.Trigger asChild>
+              <Button variant="primary">
+                <Plus className="size-3" /> Create new
+              </Button>
+            </Dialog.Trigger>
+            <Dialog.Portal>
+              <Dialog.Overlay className="fixed inset-0 bg-black/70" />
+              <Dialog.Content className="fixed p-10 space-y-10 right-0 top-0 bottom-0 h-screen min-w-[320px] bg-zinc-950 border-l border-zinc-900">
+                <div className="space-y-3">
+                  <Dialog.Title className="text-xl font-bold text-zinc-50">
+                    Create Tag
+                  </Dialog.Title>
+                  <Dialog.Description className="text-sm text-zinc-500">
+                    Tags can be used to group videos about similar concepts
+                  </Dialog.Description>
+                </div>
+                <CreateTagForm />
+              </Dialog.Content>
+            </Dialog.Portal>
+          </Dialog.Root>
         </div>
         <div className="flex items-center justify-between">
           <div className="flex gap-2">
@@ -108,7 +137,7 @@ export function App() {
             <TableRow>
               <TableHead></TableHead>
               <TableHead>Tag</TableHead>
-              <TableHead>Amount of videos</TableHead>
+              <TableHead className="text-center">Amount of videos</TableHead>
               <TableHead></TableHead>
             </TableRow>
           </TableHeader>
@@ -119,10 +148,10 @@ export function App() {
                 <TableCell>
                   <div className="flex flex-col gap-1.5">
                     <span className="font-medium">{tag.title}</span>
-                    <span className="text-xs text-zinc-500">{tag.id}</span>
+                    <span className="text-xs text-zinc-500">{tag.slug}</span>
                   </div>
                 </TableCell>
-                <TableCell className="text-zinc-300">
+                <TableCell className="text-zinc-300 text-center">
                   {tag.amountOfVideos}
                 </TableCell>
                 <TableCell className="text-right">
