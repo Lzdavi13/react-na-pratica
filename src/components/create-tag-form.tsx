@@ -5,6 +5,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as Dialog from "@radix-ui/react-dialog";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
 
 const createTagSchema = z.object({
   name: z.string().min(3, { message: "Minimum 3 characters." }),
@@ -32,7 +33,7 @@ export function CreateTagForm() {
 
   const { mutateAsync } = useMutation({
     mutationFn: async ({ name }: CreateTagType) => {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // await new Promise((resolve) => setTimeout(resolve, 2000));
 
       await fetch(`http://localhost:3333/tags`, {
         method: "POST",
@@ -52,6 +53,7 @@ export function CreateTagForm() {
 
   async function createTag({ name }: CreateTagType) {
     await mutateAsync({ name });
+    toast.success("Tag has been created");
   }
 
   return (

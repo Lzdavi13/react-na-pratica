@@ -1223,6 +1223,12 @@
       "title": "React Hook Form",
       "slug": "react-hook-form",
       "amountOfVideos": 0
+    },
+    {
+      "id": "e2f9",
+      "title": "Testando toaster",
+      "slug": "testando-toaster",
+      "amountOfVideos": 0
     }
   ]
 }
